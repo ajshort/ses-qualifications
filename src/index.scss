@@ -5,7 +5,6 @@
 
   .pathway-title {
     @extend .px-1;
-    @extend .me-1;
     background: #004684;
     color: #FFF;
     text-align: center;
@@ -13,13 +12,19 @@
   }
 
   table {
+    border-color: #FFF;
     flex-grow: 1;
     margin-bottom: 0;
   }
 
   td {
+    border-bottom-width: 0.25rem;
+    border-left-width: 0.25rem;
     color: #FFF;
     text-align: center;
+  }
+  tr:last-child td {
+    border-bottom-width: 0;
   }
 
   .foundation { background: #6D6D6D; }

@@ -78,12 +78,14 @@ function Member({ data }) {
               <td className="leadership">Field Team Leader Course</td>
             </tr>
             <tr>
-              <td className="foundation d-flex justify-content-between">
-                <div>Required for all pathways above:</div>
-                <div>Be a Field Operator</div>
-                <div>Leadership Fundamentals Course</div>
-                <div>Diversity and Inclusion Course</div>
-                <div>Emergency Management Program</div>
+              <td className="foundation">
+                <div className="d-flex justify-content-between">
+                  <div>Required for all pathways above:</div>
+                  <div>Be a Field Operator</div>
+                  <div>Leadership Fundamentals Course</div>
+                  <div>Diversity and Inclusion Course</div>
+                  <div>Emergency Management Program</div>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -170,14 +172,16 @@ function Member({ data }) {
         <table className="table">
           <tbody>
             <tr>
-              <td className="foundation d-flex justify-content-between">
-                <div>Required for all pathways above:</div>
-                <div>First Aid</div>
-                <div>Operate Communications Equipment</div>
-                <div>Beacon Field</div>
-                <div>Intro to AIIMS</div>
-                <div>Field Core Skills (except Community Engagement)</div>
-                <div>Tsunami Awareness (recommended)</div>
+              <td className="foundation">
+                <div className="d-flex justify-content-between">
+                  <div>Required for all pathways above:</div>
+                  <div>First Aid</div>
+                  <div>Operate Communications Equipment</div>
+                  <div>Beacon Field</div>
+                  <div>Intro to AIIMS</div>
+                  <div>Field Core Skills (except Community Engagement)</div>
+                  <div>Tsunami Awareness (recommended)</div>
+                </div>
               </td>
             </tr>
             <tr>
