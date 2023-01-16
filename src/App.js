@@ -1,23 +1,107 @@
+import clsx from 'clsx';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
-import { Book, Person } from 'react-bootstrap-icons';
+import Table from 'react-bootstrap/Table';
+import { BookFill, CheckLg, ClockFill, PersonFill, XLg } from 'react-bootstrap-icons';
 import { BrowserRouter as Router, Link, Route, Routes, useParams } from 'react-router-dom';
 import * as xlsx from 'xlsx';
 
+/**
+ * This analyses a member's qualification to give operator status.
+ */
+function analyse(qualifications) {
+  const or = (...args) => {
+    if (args.some(x => x === 'YES')) {
+      return 'YES';
+    }
+    if (args.some(x => x === 'EXPIRED')) {
+      return 'EXPIRED';
+    }
+    return 'NO';
+  };
+
+  const and = (...args) => {
+    if (args.every(x => x === 'YES')) {
+      return 'YES';
+    }
+    if (args.every(x => x === 'YES' || x === 'EXPIRED')) {
+      return 'EXPIRED';
+    }
+    return 'NO';
+  };
+
+  const current = (code, years) => {
+    const qual = qualifications.find(q => q.code === code);
+    if (qual === undefined) {
+      return 'NO';
+    }
+    if (moment(qual.date).add(years, 'years').isBefore()) {
+      return 'EXPIRED';
+    }
+    return 'YES';
+  };
+
+  const exists = (code) => qualifications.find(q => q.code === code) !== undefined ? 'YES' : 'NO';
+
+  const firstAid = or(current('HLTAID011', 3), current('HLTAID003', 3));
+  const operateCommsEquipment = or(exists('PUAOPE013A'), exists('CEC001'), exists('CEC002'), exists('CEC003'), exists('CEC004'));
+  const introToAiims = or(exists('AIP001'), exists('AIP002'), exists('AIP003'));
+  const beaconField = or(exists('BEF001'), exists('BEF002'), exists('BEA001'), exists('BEA002'));
+  const fieldCoreSkills = 'YES'; // TODO need to figure out what is equivalent to this.
+
+  const fieldFoundationCommEng = and(firstAid, operateCommsEquipment, beaconField, introToAiims);
+  const fieldFoundation = and(fieldFoundationCommEng, fieldFoundationCommEng);
+
+  return {
+    firstAid,
+    introToAiims,
+    operateCommsEquipment,
+    beaconField,
+    fieldCoreSkills,
+    fieldFoundation,
+
+    // These don't interact with anything further - we can just look them up directly.
+    tsunamiAwareness: exists('TSU002'),
+  };
+}
+
 function Home({ data }) {
   return (
-    <table>
+    <Table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Field Foundation</th>
+        </tr>
+      </thead>
       <tbody>
-        {data.sort((a, b) => a.surname.localeCompare(b.surname)).map(member => (
-          <tr key={member.id}>
-            <th><Link to={`/member/${member.id}`}>{member.fullName}</Link></th>
+        {data.sort((a, b) => a.surname.localeCompare(b.surname)).map(({ id, fullName, status }) => (
+          <tr key={id}>
+            <th><Link to={`/member/${id}`}>{fullName}</Link></th>
+            <td className={clsx({
+              'bg-success': status.fieldFoundation === 'YES',
+              'bg-warning': status.fieldFoundation === 'EXPIRED',
+              'bg-danger': status.fieldFoundation === 'NO',
+            })}></td>
           </tr>
         ))}
       </tbody>
-    </table>
+    </Table>
   );
+}
+
+function StatusBadge({ status }) {
+  switch (status) {
+    case 'YES':
+      return <Badge bg='success'><CheckLg /></Badge>
+    case 'EXPIRED':
+      return <Badge bg='warning'><ClockFill /></Badge>
+    default:
+      return <Badge bg='danger'><XLg /> </Badge>
+  }
 }
 
 function Member({ data }) {
@@ -28,12 +112,34 @@ function Member({ data }) {
     return <p>The requested member was not found.</p>;
   }
 
+  const { status } = member;
+
   return (
     <>
       <h1>{member.fullName}</h1>
 
+      <h2>Field Operator Pathway</h2>
+      <div className="pathway">
+        <div className="pathway-title">Foundation</div>
+        <table className="table">
+          <tbody>
+            <tr>
+              <td className="foundation d-flex justify-content-between">
+                <div>Required for all pathways above:</div>
+                <div><BookFill /> First Aid <StatusBadge status={status.firstAid} /></div>
+                <div><BookFill /> Operate Communications Equipment <StatusBadge status={status.operateCommsEquipment} /></div>
+                <div><BookFill /> Beacon Field <StatusBadge status={status.beaconField} /></div>
+                <div><BookFill /> Intro to AIIMS <StatusBadge status={status.introToAiims} /></div>
+                <div><BookFill /> Field Core Skills (except Community Engagement)</div>
+                <div><BookFill /> Tsunami Awareness (recommended) <StatusBadge status={status.tsunamiAwareness} /></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <h2>Qualifications</h2>
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
             <th>Code</th>
@@ -116,7 +222,14 @@ function App() {
         }
       }
 
-      setData(Array.from(map.values()));
+      const members = Array.from(map.values());
+
+      // Go through and perform the analysis for each member.
+      for (let member of members) {
+        member.status = analyse(member.qualifications);
+      }
+
+      setData(members);
     })();
   }, []);
 
