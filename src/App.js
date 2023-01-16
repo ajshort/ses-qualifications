@@ -90,7 +90,18 @@ function App() {
           date = moment(date, 'DD/MM/YYYY');
         }
 
-        map.get(id).qualifications.push({ code, name, date });
+        // If we already have a qualification, update to use the latest date rather than
+        // duplicating.
+        const member = map.get(id);
+        const existing = member.qualifications.findIndex(qualification => qualification.code === code);
+
+        if (existing !== -1) {
+          if (date > member.qualifications[existing].date) {
+            member.qualifications[existing].date = date;
+          }
+        } else {
+          member.qualifications.push({ code, name, date });
+        }
       }
 
       setData(Array.from(map.values()));
