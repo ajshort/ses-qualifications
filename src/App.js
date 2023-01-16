@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import { BrowserRouter as Router, Link, Route, Routes, useParams } from 'react-router-dom';
@@ -67,15 +68,29 @@ function App() {
             id: entry['Optional ID'],
             surname: entry['Surname'],
             fullName: entry['Full Name'],
-            competencies: [],
+            qualifications: [],
           });
         }
 
-        map.get(id).competencies.push({
-          code: entry['Unit of Competency Code'],
-          name: entry['Unit of Competency Name'],
-          date: entry['Activity End Date'],
-        });
+        // Try and use the qualification if we can. A lot of the imported programs from SAP are
+        // called "Imported Program" - if this is the case treat the competency as a qualification.
+        let code = entry['Qualification Code'];
+        let name = entry['Qualification Name'];
+
+        if (code === 'Imported') {
+          code = entry['Unit of Competency Code'];
+          name = entry['Unit of Competency Name'];
+        }
+
+        // For some reason half the dates are Excel style dates (which are parsed into Dates OK),
+        // and half are dd/mm/yyy dates which is great. Fix this up.
+        let date = entry['Activity End Date'];
+
+        if (typeof date === 'string') {
+          date = moment(date, 'DD/MM/YYYY');
+        }
+
+        map.get(id).qualifications.push({ code, name, date });
       }
 
       setData(Array.from(map.values()));
