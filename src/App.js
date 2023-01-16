@@ -1,7 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import Spinner from 'react-bootstrap/Spinner';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route, Routes, useParams } from 'react-router-dom';
 import * as xlsx from 'xlsx';
+
+function Home({ data }) {
+  return (
+    <table>
+      <tbody>
+        {data.sort((a, b) => a.surname.localeCompare(b.surname)).map(member => (
+          <tr key={member.id}>
+            <th><Link to={`/member/${member.id}`}>{member.fullName}</Link></th>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+function Member({ data }) {
+  const id = parseInt(useParams().id, 10);
+  const member = data.find(member => member.id === id);
+
+  if (!member) {
+    return <p>The requested member was not found.</p>;
+  }
+
+  return (
+    <>
+      <h1>{member.fullName}</h1>
+      <table>
+        <tbody>
+          {member.competencies.map(({ name, code, date }, index) => (
+            <tr key={index}>
+              <th>{code}</th>
+              <td>{name}</td>
+              <td>{date.toString()}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  )
+}
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -9,7 +49,7 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch('data.csv');
+      const response = await fetch('/data.csv');
       const buffer = await response.arrayBuffer();
       const workbook = xlsx.read(buffer, { cellDates: true });
 
@@ -50,15 +90,10 @@ function App() {
 
   return (
     <Router>
-      <table>
-        <tbody>
-          {data.sort((a, b) => a.surname.localeCompare(b.surname)).map(member => (
-            <tr key={member.id}>
-              <th><Link to={`/member/${member.id}`}>{member.fullName}</Link></th>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Routes>
+        <Route path='/' exact element={<Home data={data} />} />
+        <Route path='/member/:id' element={<Member data={data} />} />
+      </Routes>
     </Router>
   );
 }
