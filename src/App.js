@@ -72,10 +72,10 @@ function Member({ data }) {
         <table className="table">
           <tbody>
           <tr>
-              <td className="leadership status unachieved">Field Team Leader</td>
+              <td className="leadership status">Field Team Leader</td>
             </tr>
             <tr>
-              <td className="leadership unachieved">Field Team Leader Course</td>
+              <td className="leadership">Field Team Leader Course</td>
             </tr>
             <tr>
               <td className="foundation">
@@ -96,53 +96,53 @@ function Member({ data }) {
         <div className="pathway-title">Technical</div>
         <table className="table">
           <tbody>
-          <tr>
+            <tr>
               <td className="storm status">Storm Heights Operator</td>
-              <td className="storm status unachieved">Chainsaw Operator Level 2</td>
+              <td className="storm status">Chainsaw Operator Level 2</td>
               <td className="flood status">Flood Rescue In-Water Operator</td>
               <td className="flood status">Flood Rescue On-Water Operator</td>
               <td rowSpan={2}></td>
-              <td colSpan={2} className="rescue status unachieved">General Land Rescue Operator</td>
+              <td colSpan={2} className="rescue status">General Land Rescue Operator</td>
               <td rowSpan={2}></td>
-              <td className="search status unachieved">Alpine Search abd Rescue Operator</td>
-              <td className="search status unachieved">Bush Search and Rescue Operator</td>
+              <td className="search status">Alpine Search abd Rescue Operator</td>
+              <td className="search status">Bush Search and Rescue Operator</td>
               <td colSpan={3} rowSpan={4}></td>
             </tr>
             <tr>
               <td className="storm">Storm Heights Course</td>
-              <td className="storm unachieved">Chainsaw Intermediate Felling Course</td>
+              <td className="storm">Chainsaw Intermediate Felling Course</td>
               <td className="flood">Flood Rescue In-Water Course</td>
               <td className="flood">Flood Boat Operations Course</td>
-              <td className="rescue unachieved">Industrial and Domestic Rescue Course</td>
+              <td className="rescue">Industrial and Domestic Rescue Course</td>
               <td rowSpan={3} className="rescue status">Urban Search and Rescue Operator</td>
-              <td className="search unachieved">Alpine Search Course</td>
-              <td className="search unachieved">Bush Search and Rescue Course</td>
+              <td className="search">Alpine Search Course</td>
+              <td className="search">Bush Search and Rescue Course</td>
             </tr>
             <tr>
               <td rowSpan={2} className="storm status">Storm Ground Operator</td>
               <td rowSpan={2} className="storm status">Chainsaw Operator Level 1</td>
               <td rowSpan={2} colSpan={2} className="flood status">Flood Rescue Land-Based Operator</td>
-              <td rowSpan={2} className="rescue status unachieved">Large Animal Rescue Operator</td>
-              <td rowSpan={2} className="rescue status unachieved">Road Crash Rescue Operator</td>
+              <td rowSpan={2} className="rescue status">Large Animal Rescue Operator</td>
+              <td rowSpan={2} className="rescue status">Road Crash Rescue Operator</td>
               <td rowSpan={2} className="rescue status">Vertical Rescue Operator</td>
-              <td colSpan={2} className="search status unachieved">Advanced Land Search (Rugged Terrain) Operator</td>
+              <td colSpan={2} className="search status">Advanced Land Search (Rugged Terrain) Operator</td>
             </tr>
             <tr>
-              <td className="search unachieved">Land Search Advanced Course</td>
+              <td className="search">Land Search Advanced Course</td>
               <td className="search">Map and Nav Course</td>
             </tr>
             <tr>
               <td rowSpan={3} className="storm">Storm Ground Course</td>
               <td rowSpan={2} className="storm">Chainsaw Cross Cut Course</td>
               <td rowSpan={2} colSpan={2} className="flood">Flood Rescue Land-Based Course</td>
-              <td rowSpan={2} className="rescue unachieved">Large Animal Rescue Course</td>
-              <td rowSpan={2} className="rescue unachieved">Road Crash Rescue Course</td>
+              <td rowSpan={2} className="rescue">Large Animal Rescue Course</td>
+              <td rowSpan={2} className="rescue">Road Crash Rescue Course</td>
               <td rowSpan={2} className="rescue">Urban Search and Rescue Course</td>
               <td rowSpan={2} className="rescue">Vertical Rescue Course</td>
               <td colSpan={2} className="search status">Land Search (Open Terrain) Operator</td>
-              <td rowSpan={2} className="support status unachieved">Community First Responder</td>
+              <td rowSpan={2} className="support status">Community First Responder</td>
               <td rowSpan={2} className="support status">Boat Operator</td>
-              <td rowSpan={2} className="support status unachieved">Community Engagement Officer</td>
+              <td rowSpan={2} className="support status">Community Engagement Officer</td>
             </tr>
             <tr>
               <td className="search">Land Search Course</td>
@@ -152,9 +152,9 @@ function Member({ data }) {
               <td className="storm">Storm Ground Course <u>or</u> PIARO Course <u>or</u> Land Search Course</td>
               <td colSpan={6} className="rescue piaro">Participate in a Rescue Operation (PIARO) Course</td>
               <td colspan={2} className="search status">Land Search Suburban (All Job Ready members)</td>
-              <td className="support unachieved">Certificate II in Medical Service First Response</td>
+              <td className="support">Certificate II in Medical Service First Response</td>
               <td className="support">Flood Boat Operations Course</td>
-              <td className="support unachieved">Community Engagement Officer Course</td>
+              <td className="support">Community Engagement Officer Course</td>
             </tr>
             <tr>
               <td colSpan={2} className="storm">Storm</td>
@@ -192,24 +192,21 @@ function Member({ data }) {
       </div>
 
       <h2>Qualifications</h2>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {member.qualifications.sort((a, b) => b.date - a.date).map(({ name, code, date }, index) => (
-            <tr key={index}>
-              <th>{code}</th>
-              <td>{name}</td>
-              <td>{moment(date).format('DD/MM/YYYY')}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+
+      <ul>
+        {member.qualifications.map(({ code, name, competencies }) => (
+          <li key={code}>
+            <strong>{code}</strong> {name}
+            {competencies.length > 0 && (
+              <ul>
+                {competencies.map(({ name, code, date }) => (
+                  <li key={code}><strong>{code}</strong> {name} {moment(date).format('DD/MM/YYYY')}</li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
     </>
   )
 }
@@ -242,26 +239,28 @@ function App() {
           });
         }
 
-        // Try and use the qualification if we can. A lot of the imported programs from SAP are
-        // called "Imported Program" - if this is the case treat the competency as a qualification.
-        // Same detail with external courses which are imported as CTSCOPE - great.
-        let code = entry['Qualification Code'];
-        let name = entry['Qualification Name'];
-
-        if (code === 'Imported' || code === 'CTSCOPE') {
-          code = entry['Unit of Competency Code'];
-          name = entry['Unit of Competency Name'];
-        }
-
         // For some reason half the dates are Excel style dates (which are parsed into Dates OK),
-        // and half are dd/mm/yyy dates which is great. Fix this up.
+        // and half are dd/mm/yyy dates. Fix this up.
         let date = entry['Activity End Date'];
 
         if (typeof date === 'string') {
           date = moment(date, 'DD/MM/YYYY');
         }
 
-        const member = map.get(id).qualifications.push({ code, name, date });
+        // Create or insert the competency into the appropriate qualification.
+        const qualifications = map.get(id).qualifications;
+        const index = qualifications.findIndex(q => q.code === entry['Qualification Code']);
+        const competency = { code: entry['Unit of Competency Code'], name: entry['Unit of Competency Name'], date };
+
+        if (index === -1) {
+          qualifications.push({
+            code: entry['Qualification Code'],
+            name: entry['Qualification Name'],
+            competencies: [competency],
+          });
+        } else {
+          qualifications[index].competencies.push(competency);
+        }
       }
 
       const members = Array.from(map.values());
