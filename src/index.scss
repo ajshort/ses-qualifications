@@ -46,5 +46,5 @@
 
 #technical-pathway {
   td { width: calc(100% / 13); }
-  .piaro { background: linear-gradient(to right, #3182C4 30%, #F58220 40%); }
+  .piaro:not(.unachieved) { background: linear-gradient(to right, #3182C4 30%, #F58220 40%); }
 }

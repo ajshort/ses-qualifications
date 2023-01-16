@@ -1,24 +1,5 @@
 import moment from 'moment';
 
-// This is a list of known qualifications - unfortunately the codes are not so useful so we just
-// go off names. Not super robust. We use this to throw a warning when we encounter a qualification
-// we don't know about.
-export const KNOWN = [
-  'Apply advanced first aid',
-  'Apply first aid',
-  'Credit Transfer - First Aid Competencies',
-  'First Aid',
-  'Provide advanced first aid',
-  'Provide Advanced First Aid',
-  'Provide First Aid in remote or isolated site',
-  'Provide first aid in remote situations',
-  'Provide first aid',
-  'Provide First Aid',
-
-  'Tsunami Awareness (eLearning)',
-  'Tsunami Awareness',
-];
-
 /**
  * Analyse qualifications to create an operator profile.
  */
@@ -43,12 +24,12 @@ export function analyse(qualifications) {
     }
   }
 
-  function has(name) {
-    return qualifications.find(x => x.name === name) ? 'YES' : 'NO';
+  function has(code) {
+    return qualifications.find(x => x.code === code) ? 'YES' : 'NO';
   }
 
-  function current(name, years) {
-    const found = qualifications.find(x => x.name === name);
+  function current(code, years) {
+    const found = qualifications.find(x => x.code === code);
 
     if (found === undefined) {
       return 'NO';
@@ -60,22 +41,55 @@ export function analyse(qualifications) {
   }
 
   // All of these qualifications combine, so calculate them here.
-  const firstAid = or(
-    current('Apply advanced first aid', 3),
-    current('Apply first aid', 3),
-    current('Credit Transfer - First Aid Competencies', 3),
-    current('First Aid', 3),
-    current('Provide advanced first aid', 3),
-    current('Provide Advanced First Aid', 3),
-    current('Provide First Aid in remote or isolated site', 3),
-    current('Provide first aid in remote situations', 3),
-    current('Provide first aid', 3),
-    current('Provide First Aid', 3),
-  );
+  const introAiims = has('AIP002');
+  const beaconField = has('BEF001');
+
+  const stormGround = has('SDG003C');
+  const stormHeights = has('SDH003C');
+  const chainsawCrossCut = has('CSC003');
+
+  const floodBoat = has('BMC004');
+
+  const piaro = has('PRC001');
+  const usar = has('USC002');
+  const verticalRescue = has('VRC003');
+
+  const landSearch = has('LSC004');
+  const mapAndNav = has('NVC004');
+
+  const leadershipFundamentals = has('LFC003');
+
+  // Build up field course pre-reqs.
+  const foundation = 'YES';
+  const stormGroundOperator = and(foundation, stormGround);
 
   return {
-    firstAid,
+    courses: {
+      firstAid: 'NO',
+      operateCommsEquipment: 'NO',
+      beaconField,
+      introAiims,
+      fieldCoreSkills: 'NO',
+      tsunamiAwareness: 'NO',
 
-    tsunamiAwareness: or(has('Tsunami Awareness'), has('Tsunami Awareness (eLearning)'))
+      stormGround,
+      stormHeights,
+      stormGroundOrPiaroOrLandSearch: or(stormGround, piaro, landSearch),
+      chainsawCrossCut,
+
+      floodBoat,
+
+      piaro,
+      usar,
+      verticalRescue,
+
+      landSearch,
+      mapAndNav,
+
+      leadershipFundamentals,
+    },
+    operator: {
+      stormGround: stormGroundOperator,
+    },
   };
 }
