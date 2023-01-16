@@ -1,6 +1,8 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
+import { Book, Person } from 'react-bootstrap-icons';
 import { BrowserRouter as Router, Link, Route, Routes, useParams } from 'react-router-dom';
 import * as xlsx from 'xlsx';
 
@@ -29,13 +31,22 @@ function Member({ data }) {
   return (
     <>
       <h1>{member.fullName}</h1>
-      <table>
+
+      <h2>Qualifications</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Date</th>
+          </tr>
+        </thead>
         <tbody>
-          {member.competencies.map(({ name, code, date }, index) => (
+          {member.qualifications.sort((a, b) => b.date - a.date).map(({ name, code, date }, index) => (
             <tr key={index}>
               <th>{code}</th>
               <td>{name}</td>
-              <td>{date.toString()}</td>
+              <td>{moment(date).format('DD/MM/YYYY')}</td>
             </tr>
           ))}
         </tbody>
@@ -115,12 +126,14 @@ function App() {
   }
 
   return (
-    <Router>
-      <Routes>
-        <Route path='/' exact element={<Home data={data} />} />
-        <Route path='/member/:id' element={<Member data={data} />} />
-      </Routes>
-    </Router>
+    <Container fluid>
+      <Router>
+        <Routes>
+          <Route path='/' exact element={<Home data={data} />} />
+          <Route path='/member/:id' element={<Member data={data} />} />
+        </Routes>
+      </Router>
+    </Container>
   );
 }
 
