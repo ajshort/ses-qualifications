@@ -85,10 +85,11 @@ function App() {
 
         // Try and use the qualification if we can. A lot of the imported programs from SAP are
         // called "Imported Program" - if this is the case treat the competency as a qualification.
+        // Same detail with external courses which are imported as CTSCOPE - great.
         let code = entry['Qualification Code'];
         let name = entry['Qualification Name'];
 
-        if (code === 'Imported') {
+        if (code === 'Imported' || code === 'CTSCOPE') {
           code = entry['Unit of Competency Code'];
           name = entry['Unit of Competency Name'];
         }
