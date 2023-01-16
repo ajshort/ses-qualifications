@@ -66,20 +66,122 @@ function Member({ data }) {
       <h1>{member.fullName}</h1>
 
       <h2>Field Operator Pathway</h2>
-      <div className="pathway">
+
+      <div className="pathway mb-1">
+        <div className="pathway-title">Leadership</div>
+        <table className="table">
+          <tbody>
+          <tr>
+              <td className="leadership status">Field Team Leader</td>
+            </tr>
+            <tr>
+              <td className="leadership">Field Team Leader Course</td>
+            </tr>
+            <tr>
+              <td className="foundation d-flex justify-content-between">
+                <div>Required for all pathways above:</div>
+                <div>Be a Field Operator</div>
+                <div>Leadership Fundamentals Course</div>
+                <div>Diversity and Inclusion Course</div>
+                <div>Emergency Management Program</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="technical-pathway" className="pathway mb-1">
+        <div className="pathway-title">Technical</div>
+        <table className="table">
+          <tbody>
+          <tr>
+              <td className="storm status">Storm Heights Operator</td>
+              <td className="storm status">Chainsaw Operator Level 2</td>
+              <td className="flood status">Flood Rescue In-Water Operator</td>
+              <td className="flood status">Flood Rescue On-Water Operator</td>
+              <td rowSpan={2}></td>
+              <td colSpan={2} className="rescue status">General Land Rescue Operator</td>
+              <td rowSpan={2}></td>
+              <td className="search status">Alpine Search abd Rescue Operator</td>
+              <td className="search status">Bush Search and Rescue Operator</td>
+              <td colSpan={3} rowSpan={4}></td>
+            </tr>
+            <tr>
+              <td className="storm">Storm Heights Course</td>
+              <td className="storm">Chainsaw Intermediate Felling Course</td>
+              <td className="flood">Flood Rescue In-Water Course</td>
+              <td className="flood">Flood Boat Operations Course</td>
+              <td className="rescue">Industrial and Domestic Rescue Course</td>
+              <td rowSpan={3} className="rescue status">Urban Search and Rescue Operator</td>
+              <td className="search">Alpine Search Course</td>
+              <td className="search">Bush Search and Rescue Course</td>
+            </tr>
+            <tr>
+              <td rowSpan={2} className="storm status">Storm Ground Operator</td>
+              <td rowSpan={2} className="storm status">Chainsaw Operator Level 1</td>
+              <td rowSpan={2} colSpan={2} className="flood">Flood Rescue Land-Based Operator</td>
+              <td rowSpan={2} className="rescue status">Large Animal Rescue Operator</td>
+              <td rowSpan={2} className="rescue status">Road Crash Rescue Operator</td>
+              <td rowSpan={2} className="rescue status">Vertical Rescue Operator</td>
+              <td colSpan={2} className="search status">Advanced Land Search (Rugged Terrain) Operator</td>
+            </tr>
+            <tr>
+              <td className="search">Land Search Advanced Course</td>
+              <td className="search">Map and Nav Course</td>
+            </tr>
+            <tr>
+              <td rowSpan={3} className="storm">Storm Ground Course</td>
+              <td rowSpan={2} className="storm">Chainsaw Cross Cut Course</td>
+              <td rowSpan={2} colSpan={2} className="flood">Flood Rescue Land-Based Course</td>
+              <td rowSpan={2} className="rescue">Large Animal Rescue Course</td>
+              <td rowSpan={2} className="rescue">Road Crash Rescue Course</td>
+              <td rowSpan={2} className="rescue">Urban Search and Rescue Course</td>
+              <td rowSpan={2} className="rescue">Vertical Rescue Course</td>
+              <td colSpan={2} className="search status">Land Search (Open Terrain) Operator</td>
+              <td rowSpan={2} className="support status">Community First Responder</td>
+              <td rowSpan={2} className="support status">Boat Operator</td>
+              <td rowSpan={2} className="support status">Community Engagement Officer</td>
+            </tr>
+            <tr>
+              <td className="search">Land Search Course</td>
+              <td className="search">Map and Nav Course (recommended)</td>
+            </tr>
+            <tr>
+              <td className="storm">Storm Ground Course <u>or</u> PIARO Course <u>or</u> Land Search Course</td>
+              <td colSpan={6} className="rescue piaro">Participate in a Rescue Operation (PIARO) Course</td>
+              <td colspan={2} className="search status">Land Search Suburban (All Job Ready members)</td>
+              <td className="support">Certificate II in Medical Service First Response</td>
+              <td className="support">Flood Boat Operations Course</td>
+              <td className="support">Community Engagement Officer Course</td>
+            </tr>
+            <tr>
+              <td colSpan={2} className="storm">Storm</td>
+              <td colSpan={2} className="flood">Flood Rescue</td>
+              <td colSpan={4} className="rescue">Land Rescue</td>
+              <td colSpan={2} className="search">Land Search</td>
+              <td colSpan={3} className="support">Support</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div className="pathway mb-3">
         <div className="pathway-title">Foundation</div>
         <table className="table">
           <tbody>
             <tr>
               <td className="foundation d-flex justify-content-between">
                 <div>Required for all pathways above:</div>
-                <div><StatusBadge status={status.firstAid} /> First Aid</div>
-                <div><StatusBadge status={status.operateCommsEquipment} /> Operate Communications Equipment</div>
-                <div><StatusBadge status={status.beaconField} /> Beacon Field</div>
-                <div><StatusBadge status={status.introToAiims} /> Intro to AIIMS</div>
-                <div><BookFill /> Field Core Skills (except Community Engagement)</div>
-                <div><StatusBadge status={status.tsunamiAwareness} /> Tsunami Awareness (recommended)</div>
+                <div>First Aid</div>
+                <div>Operate Communications Equipment</div>
+                <div>Beacon Field</div>
+                <div>Intro to AIIMS</div>
+                <div>Field Core Skills (except Community Engagement)</div>
+                <div>Tsunami Awareness (recommended)</div>
               </td>
+            </tr>
+            <tr>
+              <td className="foundation status">Job Ready</td>
             </tr>
           </tbody>
         </table>

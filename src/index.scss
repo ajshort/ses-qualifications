@@ -1,11 +1,44 @@
 @import "bootstrap";
 
 .pathway {
-  td {
+  display: flex;
+
+  .pathway-title {
+    @extend .px-1;
+    @extend .me-1;
+    background: #004684;
     color: #FFF;
+    text-align: center;
+    writing-mode: vertical-rl;
   }
 
-  .foundation {
-    background: #6D6D6D;
+  table {
+    flex-grow: 1;
+    margin-bottom: 0;
   }
+
+  td {
+    color: #FFF;
+    text-align: center;
+  }
+
+  .foundation { background: #6D6D6D; }
+  .foundation.status { background: #4E4E4E; }
+  .storm { background: #F4B31A; }
+  .storm.status { background: #F3921E; }
+  .flood { background: #3182C4; }
+  .flood.status { background: #166CB2; }
+  .rescue { background: #F58220; }
+  .rescue.status { background: #E55A26; }
+  .search { background: #7FC241; }
+  .search.status { background: #48B748; }
+  .support { background: #806CAF; }
+  .support.status { background: #63499D; }
+  .leadership { background: #E33C4D; }
+  .leadership.status { background: #B01D48; }
+}
+
+#technical-pathway {
+  td { width: calc(100% / 13); }
+  .piaro { background: linear-gradient(to right, #3182C4 30%, #F58220 40%); }
 }
