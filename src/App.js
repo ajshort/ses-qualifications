@@ -9,20 +9,28 @@ import Table from 'react-bootstrap/Table';
 import { BookFill, CheckLg, ClockFill, PersonFill, Question, XLg } from 'react-bootstrap-icons';
 import { BrowserRouter as Router, Link, Route, Routes, useParams } from 'react-router-dom';
 import * as xlsx from 'xlsx';
+import clsx from 'clsx';
 
 function Home({ data }) {
+  const statusClass = (status) => clsx({
+    'bg-success': status === 'YES',
+    'bg-warning': status === 'EXPIRED',
+    'bg-danger': status === 'NO',
+  });
+
   return (
     <Table>
       <thead>
         <tr>
           <th>Name</th>
-          <th>Field Foundation</th>
+          <th>First Aid</th>
         </tr>
       </thead>
       <tbody>
-        {data.sort((a, b) => a.surname.localeCompare(b.surname)).map(({ id, fullName }) => (
+        {data.sort((a, b) => a.surname.localeCompare(b.surname)).map(({ id, fullName, status }) => (
           <tr key={id}>
             <th><Link to={`/member/${id}`}>{fullName}</Link></th>
+            <td className={statusClass(status.firstAid)}></td>
           </tr>
         ))}
       </tbody>
@@ -33,13 +41,13 @@ function Home({ data }) {
 function StatusBadge({ status }) {
   switch (status) {
     case 'YES':
-      return <Badge bg='success'><CheckLg /></Badge>
+      return <Badge bg='success'><BookFill /></Badge>
     case 'EXPIRED':
-      return <Badge bg='warning'><ClockFill /></Badge>
+      return <Badge bg='warning'><BookFill /></Badge>
     case 'NO':
-      return <Badge bg='danger'><XLg /> </Badge>
+      return <Badge bg='danger'><BookFill /> </Badge>
     default:
-      return <Badge bg='secondary'><Question /></Badge>
+      return <Badge bg='secondary'><BookFill /></Badge>
   }
 }
 
@@ -65,12 +73,12 @@ function Member({ data }) {
             <tr>
               <td className="foundation d-flex justify-content-between">
                 <div>Required for all pathways above:</div>
-                <div><BookFill /> First Aid <StatusBadge status={status.firstAid} /></div>
-                <div><BookFill /> Operate Communications Equipment <StatusBadge status={status.operateCommsEquipment} /></div>
-                <div><BookFill /> Beacon Field <StatusBadge status={status.beaconField} /></div>
-                <div><BookFill /> Intro to AIIMS <StatusBadge status={status.introToAiims} /></div>
+                <div><StatusBadge status={status.firstAid} /> First Aid</div>
+                <div><StatusBadge status={status.operateCommsEquipment} /> Operate Communications Equipment</div>
+                <div><StatusBadge status={status.beaconField} /> Beacon Field</div>
+                <div><StatusBadge status={status.introToAiims} /> Intro to AIIMS</div>
                 <div><BookFill /> Field Core Skills (except Community Engagement)</div>
-                <div><BookFill /> Tsunami Awareness (recommended) <StatusBadge status={status.tsunamiAwareness} /></div>
+                <div><StatusBadge status={status.tsunamiAwareness} /> Tsunami Awareness (recommended)</div>
               </td>
             </tr>
           </tbody>
