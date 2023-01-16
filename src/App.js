@@ -72,10 +72,10 @@ function Member({ data }) {
         <table className="table">
           <tbody>
           <tr>
-              <td className="leadership status">Field Team Leader</td>
+              <td className="leadership status unachieved">Field Team Leader</td>
             </tr>
             <tr>
-              <td className="leadership">Field Team Leader Course</td>
+              <td className="leadership unachieved">Field Team Leader Course</td>
             </tr>
             <tr>
               <td className="foundation">
@@ -98,51 +98,51 @@ function Member({ data }) {
           <tbody>
           <tr>
               <td className="storm status">Storm Heights Operator</td>
-              <td className="storm status">Chainsaw Operator Level 2</td>
+              <td className="storm status unachieved">Chainsaw Operator Level 2</td>
               <td className="flood status">Flood Rescue In-Water Operator</td>
               <td className="flood status">Flood Rescue On-Water Operator</td>
               <td rowSpan={2}></td>
-              <td colSpan={2} className="rescue status">General Land Rescue Operator</td>
+              <td colSpan={2} className="rescue status unachieved">General Land Rescue Operator</td>
               <td rowSpan={2}></td>
-              <td className="search status">Alpine Search abd Rescue Operator</td>
-              <td className="search status">Bush Search and Rescue Operator</td>
+              <td className="search status unachieved">Alpine Search abd Rescue Operator</td>
+              <td className="search status unachieved">Bush Search and Rescue Operator</td>
               <td colSpan={3} rowSpan={4}></td>
             </tr>
             <tr>
               <td className="storm">Storm Heights Course</td>
-              <td className="storm">Chainsaw Intermediate Felling Course</td>
+              <td className="storm unachieved">Chainsaw Intermediate Felling Course</td>
               <td className="flood">Flood Rescue In-Water Course</td>
               <td className="flood">Flood Boat Operations Course</td>
-              <td className="rescue">Industrial and Domestic Rescue Course</td>
+              <td className="rescue unachieved">Industrial and Domestic Rescue Course</td>
               <td rowSpan={3} className="rescue status">Urban Search and Rescue Operator</td>
-              <td className="search">Alpine Search Course</td>
-              <td className="search">Bush Search and Rescue Course</td>
+              <td className="search unachieved">Alpine Search Course</td>
+              <td className="search unachieved">Bush Search and Rescue Course</td>
             </tr>
             <tr>
               <td rowSpan={2} className="storm status">Storm Ground Operator</td>
               <td rowSpan={2} className="storm status">Chainsaw Operator Level 1</td>
-              <td rowSpan={2} colSpan={2} className="flood">Flood Rescue Land-Based Operator</td>
-              <td rowSpan={2} className="rescue status">Large Animal Rescue Operator</td>
-              <td rowSpan={2} className="rescue status">Road Crash Rescue Operator</td>
+              <td rowSpan={2} colSpan={2} className="flood status">Flood Rescue Land-Based Operator</td>
+              <td rowSpan={2} className="rescue status unachieved">Large Animal Rescue Operator</td>
+              <td rowSpan={2} className="rescue status unachieved">Road Crash Rescue Operator</td>
               <td rowSpan={2} className="rescue status">Vertical Rescue Operator</td>
-              <td colSpan={2} className="search status">Advanced Land Search (Rugged Terrain) Operator</td>
+              <td colSpan={2} className="search status unachieved">Advanced Land Search (Rugged Terrain) Operator</td>
             </tr>
             <tr>
-              <td className="search">Land Search Advanced Course</td>
+              <td className="search unachieved">Land Search Advanced Course</td>
               <td className="search">Map and Nav Course</td>
             </tr>
             <tr>
               <td rowSpan={3} className="storm">Storm Ground Course</td>
               <td rowSpan={2} className="storm">Chainsaw Cross Cut Course</td>
               <td rowSpan={2} colSpan={2} className="flood">Flood Rescue Land-Based Course</td>
-              <td rowSpan={2} className="rescue">Large Animal Rescue Course</td>
-              <td rowSpan={2} className="rescue">Road Crash Rescue Course</td>
+              <td rowSpan={2} className="rescue unachieved">Large Animal Rescue Course</td>
+              <td rowSpan={2} className="rescue unachieved">Road Crash Rescue Course</td>
               <td rowSpan={2} className="rescue">Urban Search and Rescue Course</td>
               <td rowSpan={2} className="rescue">Vertical Rescue Course</td>
               <td colSpan={2} className="search status">Land Search (Open Terrain) Operator</td>
-              <td rowSpan={2} className="support status">Community First Responder</td>
+              <td rowSpan={2} className="support status unachieved">Community First Responder</td>
               <td rowSpan={2} className="support status">Boat Operator</td>
-              <td rowSpan={2} className="support status">Community Engagement Officer</td>
+              <td rowSpan={2} className="support status unachieved">Community Engagement Officer</td>
             </tr>
             <tr>
               <td className="search">Land Search Course</td>
@@ -152,9 +152,9 @@ function Member({ data }) {
               <td className="storm">Storm Ground Course <u>or</u> PIARO Course <u>or</u> Land Search Course</td>
               <td colSpan={6} className="rescue piaro">Participate in a Rescue Operation (PIARO) Course</td>
               <td colspan={2} className="search status">Land Search Suburban (All Job Ready members)</td>
-              <td className="support">Certificate II in Medical Service First Response</td>
+              <td className="support unachieved">Certificate II in Medical Service First Response</td>
               <td className="support">Flood Boat Operations Course</td>
-              <td className="support">Community Engagement Officer Course</td>
+              <td className="support unachieved">Community Engagement Officer Course</td>
             </tr>
             <tr>
               <td colSpan={2} className="storm">Storm</td>
