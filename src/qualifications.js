@@ -41,6 +41,8 @@ export function analyse(codes) {
   }
 
   // All of these qualifications combine, so calculate them here.
+  const jobReadyInduction = has('JRI002');
+  const jobReadyWorkshop = has('IJR001');
   const beaconFamiliar = or(has('BEP001'), has('BEA002'));
   const codeOfConduct = or(current('CCE001E', 3), current('COC003', 3), current('COC003E', 3));
   const floodRescueAwareness = or(has('FRA001'), has('FRAP002'), has('FRA003'));
@@ -60,7 +62,7 @@ export function analyse(codes) {
   const floodBoat = or(has('BMC004'), has('PUASES009A'), has('IRB001'));
   const inWater = or(has('FR3001'), has('PUASAR034'), has('PUASAR002'));
 
-  const piaro = or(has('PRC001'), has('PRC002'), has('PUASAR001A'), has('PUASAR001B'));
+  const piaro = or(has('PRC001'), has('PRC002'), has('PUASAR001A'), has('PUASAR001B'), has('PUASAR022A'));
   const usar = has('USC002');
   const verticalRescue = or(has('VRC003'), has('VRC004'), has('PUASAR032A'));
 
@@ -80,7 +82,7 @@ export function analyse(codes) {
   const landSearchOpenFitness = 'YES';
 
   // Build up field course pre-reqs and operator status.
-  const jobReady = and(beaconFamiliar, codeOfConduct, floodRescueAwareness); // TODO
+  const jobReady = and(beaconFamiliar, codeOfConduct, floodRescueAwareness, jobReadyInduction, jobReadyWorkshop);
   const foundation = and(jobReady, firstAid, operateCommsEquipment, beaconField, introAiims, fieldCoreSkills);
   const stormGroundOrPiaroOrLandSearch = or(stormGround, piaro, landSearch);
 
@@ -106,6 +108,8 @@ export function analyse(codes) {
       beaconFamiliar,
       codeOfConduct,
       floodRescueAwareness,
+      jobReadyInduction,
+      jobReadyWorkshop,
 
       firstAid,
       operateCommsEquipment,

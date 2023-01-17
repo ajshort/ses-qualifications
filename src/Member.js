@@ -166,9 +166,9 @@ function Member({ data }) {
                   <div><StatusIcon status={operator.jobReady}>Job Ready</StatusIcon></div>
                   <div><StatusIcon status={courses.beaconFamiliar}>Beacon Familiarisation</StatusIcon></div>
                   <div><StatusIcon status={courses.codeOfConduct}>Code of Conduct</StatusIcon></div>
-                  <div>Job Ready Induction</div>
+                  <div><StatusIcon status={courses.jobReadyInduction}>Job Ready Induction</StatusIcon></div>
                   <div><StatusIcon status={courses.floodRescueAwareness}>Flood Rescue Awareness</StatusIcon></div>
-                  <div>Job Ready Workshop</div>
+                  <div><StatusIcon status={courses.jobReadyWorkshop}>Job Ready Workshop</StatusIcon></div>
                 </div>
               </td>
             </tr>
