@@ -36,10 +36,10 @@ function Member({ data }) {
         <table className="table">
           <tbody>
           <tr>
-              <td className="leadership status">Field Team Leader</td>
+              <td className={clsx('leadership', 'status', statusClass(operator.fieldTeamLeader))}>Field Team Leader</td>
             </tr>
             <tr>
-              <td className={clsx('search', statusClass(courses.fieldTeamLeader))}>Field Team Leader Course</td>
+              <td className={clsx('leadership', statusClass(courses.fieldTeamLeader))}>Field Team Leader Course</td>
             </tr>
             <tr>
               <td className="foundation">
@@ -85,10 +85,10 @@ function Member({ data }) {
             <tr>
               <td rowSpan={2} className={clsx('storm', 'status', statusClass(operator.stormGround))}>Storm Ground Operator</td>
               <td rowSpan={2} className={clsx('storm', 'status', statusClass(operator.chainsawL1))}>Chainsaw Operator Level 1</td>
-              <td rowSpan={2} colSpan={2}  className={clsx('flood', 'status', statusClass(operator.landBased))}>Flood Rescue Land-Based Operator</td>
+              <td rowSpan={2} colSpan={2} className={clsx('flood', 'status', statusClass(operator.landBased))}>Flood Rescue Land-Based Operator</td>
               <td rowSpan={2} className={clsx('rescue', 'status', statusClass(operator.lar))}>Large Animal Rescue Operator</td>
               <td rowSpan={2} className={clsx('rescue', 'status', statusClass(operator.rcr))}>Road Crash Rescue Operator</td>
-              <td rowSpan={2} className={clsx('rescue', 'status', statusClass(operator.vr))}>Vertical Rescue Operator</td>
+              <td rowSpan={2} className={clsx('rescue', 'status', statusClass(operator.verticalRescue))}>Vertical Rescue Operator</td>
               <td colSpan={2} className={clsx('search', 'status', statusClass(operator.landSearchAdvanced))}>Advanced Land Search (Rugged Terrain) Operator</td>
             </tr>
             <tr>
@@ -115,7 +115,7 @@ function Member({ data }) {
             <tr>
               <td className={clsx('storm', statusClass(courses.stormGroundOrPiaroOrLandSearch))}>Storm Ground Course <u>or</u> PIARO Course <u>or</u> Land Search Course</td>
               <td colSpan={6} className={clsx('rescue', 'piaro', statusClass(courses.piaro))}>Participate in a Rescue Operation (PIARO) Course</td>
-              <td colSpan={2} className="search status">Land Search Suburban (All Job Ready members)</td>
+              <td colSpan={2} className={clsx('search', 'status', statusClass(operator.landSearchSuburban))}>Land Search Suburban (All Job Ready members)</td>
               <td className={clsx('support', statusClass(courses.medicalResponse))}>Certificate II in Medical Service First Response</td>
               <td className={clsx('support', statusClass(courses.floodBoat))}>Flood Boat Operations Course</td>
               <td className={clsx('support', statusClass(courses.commEng))}>Community Engagement Officer Course</td>
@@ -149,7 +149,16 @@ function Member({ data }) {
               </td>
             </tr>
             <tr>
-              <td className="foundation status">Job Ready</td>
+              <td className="foundation status">
+                <div className="d-flex justify-content-between">
+                  <div>Job Ready</div>
+                  <div>Beacon Familiarisation</div>
+                  <div>Code of Conduct</div>
+                  <div>Job Ready Induction</div>
+                  <div>Flood Rescue Awareness</div>
+                  <div>Job Ready Workshop</div>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>

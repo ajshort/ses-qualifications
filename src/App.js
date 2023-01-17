@@ -62,6 +62,7 @@ function App() {
             surname: entry['Surname'],
             fullName: entry['Full Name'],
             qualifications: [],
+            codes: new Map(),
           });
         }
 
@@ -74,7 +75,7 @@ function App() {
         }
 
         // Create or insert the competency into the appropriate qualification.
-        const qualifications = map.get(id).qualifications;
+        const { qualifications, codes } = map.get(id);
         const index = qualifications.findIndex(q => q.code === entry['Qualification Code']);
         const competency = { code: entry['Unit of Competency Code'], name: entry['Unit of Competency Name'], date };
 
@@ -87,13 +88,28 @@ function App() {
         } else {
           qualifications[index].competencies.push(competency);
         }
+
+        // Add both qualification and competency code to the map, keeping the latest date if it's
+        // already there.
+        const add = (code) => {
+          const existing = codes.get(code);
+
+          if (existing !== undefined) {
+            codes.set(code, Math.max(existing, date));
+          } else {
+            codes.set(code, date);
+          }
+        };
+
+        add(entry['Qualification Code']);
+        add(entry['Unit of Competency Code']);
       }
 
       const members = Array.from(map.values());
 
       // Go through and perform the analysis for each member.
       for (let member of members) {
-        member.status = analyse(member.qualifications);
+        member.status = analyse(member.codes);
       }
 
       setData(members);
