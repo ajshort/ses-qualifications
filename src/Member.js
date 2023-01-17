@@ -2,6 +2,18 @@ import clsx from 'clsx';
 import moment from 'moment';
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faHourglassEnd, faUser, faXmark } from '@fortawesome/free-solid-svg-icons';
+
+function StatusIcon({ status, children }) {
+  if (status === 'YES') {
+    return <><FontAwesomeIcon icon={faCheck} /> {children}</>;
+  } else if (status === 'EXPIRED') {
+    return <><FontAwesomeIcon icon={faHourglassEnd} /> <span className="text-decoration-line-through">{children}</span></>;
+  } else {
+    return <><FontAwesomeIcon icon={faXmark} /> <span className="text-decoration-line-through">{children}</span></>;
+  }
+}
 
 function Member({ data }) {
   const id = parseInt(useParams().id, 10);
@@ -45,7 +57,7 @@ function Member({ data }) {
               <td className="foundation">
                 <div className="d-flex justify-content-between">
                   <div>Required for all pathways above:</div>
-                  <div>Be a Field Operator</div>
+                  <div><FontAwesomeIcon icon={faUser} /> Be a Field Operator</div>
                   <div>Leadership Fundamentals Course</div>
                   <div>Diversity and Inclusion Course</div>
                   <div>Emergency Management Program</div>
@@ -58,13 +70,13 @@ function Member({ data }) {
 
       <div id="technical-pathway" className="pathway mb-1">
         <div className="pathway-title">Technical</div>
-        <table className="table">
+        <table className="table table-responsive">
           <tbody>
             <tr>
               <td className={clsx('storm', 'status', statusClass(operator.stormHeights))}>Storm Heights Operator</td>
               <td className={clsx('storm', 'status', statusClass(operator.chainsawL2))}>Chainsaw Operator Level 2</td>
-              <td  className={clsx('flood', 'status', statusClass(operator.onWater))}>Flood Rescue In-Water Operator</td>
-              <td className={clsx('flood', 'status', statusClass(operator.inWater))}>Flood Rescue On-Water Operator</td>
+              <td  className={clsx('flood', 'status', statusClass(operator.inWater))}>Flood Rescue In-Water Operator</td>
+              <td className={clsx('flood', 'status', statusClass(operator.onWater))}>Flood Rescue On-Water Operator</td>
               <td rowSpan={2}></td>
               <td colSpan={2} className={clsx('rescue', 'status', statusClass(operator.glr))}>General Land Rescue Operator</td>
               <td rowSpan={2}></td>
@@ -138,24 +150,24 @@ function Member({ data }) {
             <tr>
               <td className="foundation">
                 <div className="d-flex justify-content-between">
-                  <div>Required for all pathways above:</div>
-                  <div>First Aid</div>
-                  <div>Operate Communications Equipment</div>
-                  <div>Beacon Field</div>
-                  <div>Intro to AIIMS</div>
-                  <div>Field Core Skills (except Community Engagement)</div>
-                  <div>Tsunami Awareness (recommended)</div>
+                  <div><StatusIcon status={operator.foundation}>Required for all pathways above:</StatusIcon></div>
+                  <div><StatusIcon status={courses.firstAid}>First Aid</StatusIcon></div>
+                  <div><StatusIcon status={courses.operateCommsEquipment}>Operate Communications Equipment</StatusIcon></div>
+                  <div><StatusIcon status={courses.beaconField}>Beacon Field</StatusIcon></div>
+                  <div><StatusIcon status={courses.introAiims}>Intro to AIIMS</StatusIcon></div>
+                  <div><StatusIcon status={courses.fieldCoreSkills}>Field Core Skills (except Community Engagement)</StatusIcon></div>
+                  <div><StatusIcon status={courses.tsunamiAwareness}>Tsunami Awareness (recommended)</StatusIcon></div>
                 </div>
               </td>
             </tr>
             <tr>
               <td className="foundation status">
                 <div className="d-flex justify-content-between">
-                  <div>Job Ready</div>
-                  <div>Beacon Familiarisation</div>
-                  <div>Code of Conduct</div>
+                  <div><StatusIcon status={operator.jobReady}>Job Ready</StatusIcon></div>
+                  <div><StatusIcon status={courses.beaconFamiliar}>Beacon Familiarisation</StatusIcon></div>
+                  <div><StatusIcon status={courses.codeOfConduct}>Code of Conduct</StatusIcon></div>
                   <div>Job Ready Induction</div>
-                  <div>Flood Rescue Awareness</div>
+                  <div><StatusIcon status={courses.floodRescueAwareness}>Flood Rescue Awareness</StatusIcon></div>
                   <div>Job Ready Workshop</div>
                 </div>
               </td>

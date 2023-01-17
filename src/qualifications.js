@@ -41,56 +41,77 @@ export function analyse(codes) {
   }
 
   // All of these qualifications combine, so calculate them here.
-  const operateCommsEquipment = has('PUAOPE013');
-  const beaconField = has('BEF001');
+  const beaconFamiliar = or(has('BEP001'), has('BEA002'));
+  const codeOfConduct = or(current('CCE001E', 3), current('COC003', 3), current('COC003E', 3));
+  const floodRescueAwareness = or(has('FRA001'), has('FRAP002'), has('FRA003'));
+
+  const firstAid = or(current('SFC001', 3), current('SFC002', 3), current('HLTAID003', 3), current('HLTAID011', 3));
+  const operateCommsEquipment = or(has('CEC001'), has('CEC002'), has('PUAOPE013'), has('PUAOPE013A'));
+  const beaconField = or(has('BEF001'), has('BEF002'));
   const introAiims = has('AIP002');
+  const fieldCoreSkills = 'YES'; // TODO
   const tsunamiAwareness = has('TSU002');
 
-  const stormGround = or(has('SDC001'), has('SDG003C'), has('PUASES008A'));
-  const stormHeights = or(has('SDH003C'), has('PUASES013A'));
+  const stormGround = or(has('SDC001'), has('SDC002'), has('SDG003C'), has('PUASES008'), has('PUASES008A'));
+  const stormHeights = or(has('SDC001'), has('SDC002'), has('SDH003C'), has('PUASES013'), has('PUASES013A'));
   const chainsawCrossCut = has('CSC003');
 
   const landBased = or(has('FR1001'), has('PUASAR033'), has('PUASAR001'))
   const floodBoat = or(has('BMC004'), has('PUASES009A'), has('IRB001'));
   const inWater = or(has('FR3001'), has('PUASAR034'), has('PUASAR002'));
 
-  const piaro = or(has('PRC001'), has('PRC002'), has('PUASAR001A'));
+  const piaro = or(has('PRC001'), has('PRC002'), has('PUASAR001A'), has('PUASAR001B'));
   const usar = has('USC002');
-  const verticalRescue = or(has('VRC003'), has('VRC004'));
+  const verticalRescue = or(has('VRC003'), has('VRC004'), has('PUASAR032A'));
 
-  const landSearch = has('LSC004');
+  const landSearch = or(has('LSC002'), has('LSC004'));
   const mapAndNav = or(has('NVC003'), has('NVC004'));
 
   const leadershipFundamentals = has('LFC003');
   const fieldTeamLeader = has('FTL002');
 
   // Fitness / currency requirements.
-  const verticalRescueFitness = 'NO';
+  const verticalRescueFitness = 'YES'; // TODO
+
+  const boatFitness = 'YES';
+  const landBasedFitness = 'YES';
+  const inWaterFitness = 'YES';
+
+  const landSearchOpenFitness = 'YES';
 
   // Build up field course pre-reqs and operator status.
-  const jobReady = 'YES';
-  const foundation = and(jobReady, 'YES');
+  const jobReady = and(beaconFamiliar, codeOfConduct, floodRescueAwareness); // TODO
+  const foundation = and(jobReady, firstAid, operateCommsEquipment, beaconField, introAiims, fieldCoreSkills);
   const stormGroundOrPiaroOrLandSearch = or(stormGround, piaro, landSearch);
 
   const stormGroundOperator = and(foundation, stormGround);
   const stormHeightsOperator = and(stormGroundOperator, stormHeights);
 
   const chainsawL1 = and(foundation, stormGroundOrPiaroOrLandSearch, chainsawCrossCut);
-  const chainsawL2 = and(chainsawL1, 'NO');
+  const chainsawL2 = and(chainsawL1, 'NO'); // TODO
+
+  const boatOperator = and(foundation, floodBoat, boatFitness);
+  const landBasedOperator = and(foundation, piaro, landBased, landBasedFitness);
+  const onWaterOperator = and(landBasedOperator, floodBoat);
+  const inWaterOperator = and(landBasedOperator, inWater, inWaterFitness);
 
   const usarOperator = and(foundation, piaro, usar);
   const verticalRescueOperator = and(foundation, piaro, verticalRescue, verticalRescueFitness);
 
   const landSearchSuburban = jobReady;
-  const landSearchOpen = and(landSearchSuburban, landSearch, 'NO');
+  const landSearchOpen = and(landSearchSuburban, landSearch, landSearchOpenFitness);
 
   return {
     courses: {
-      firstAid: 'NO',
+      beaconFamiliar,
+      codeOfConduct,
+      floodRescueAwareness,
+
+      firstAid,
       operateCommsEquipment,
       beaconField,
       introAiims,
-      fieldCoreSkills: 'NO',
+      fieldCoreSkills,
       tsunamiAwareness,
 
       stormGround,
@@ -113,11 +134,19 @@ export function analyse(codes) {
       fieldTeamLeader,
     },
     operator: {
+      jobReady,
+      foundation,
+
       stormGround: stormGroundOperator,
       stormHeights: stormHeightsOperator,
 
       chainsawL1,
       chainsawL2,
+
+      boat: boatOperator,
+      landBased: landBasedOperator,
+      onWater: onWaterOperator,
+      inWater: inWaterOperator,
 
       usar: usarOperator,
       verticalRescue: verticalRescueOperator,
