@@ -56,18 +56,19 @@ export function analyse(codes) {
 
   const stormGround = or(has('SDC001'), has('SDC002'), has('SDG003C'), has('PUASES008'), has('PUASES008A'));
   const stormHeights = or(has('SDC001'), has('SDC002'), has('SDH003C'), has('PUASES013'), has('PUASES013A'));
-  const chainsawCrossCut = has('CSC003');
+  const chainsawCrossCut = or(has('CSC003'), has('CSC001'));
+  const chainsawFelling = has('CFC002');
 
   const landBased = or(has('FR1001'), has('PUASAR033'), has('PUASAR001'))
-  const floodBoat = or(has('BMC004'), has('PUASES009A'), has('IRB001'));
+  const floodBoat = or(has('BCC001'), has('BMC004'), has('PUASES009A'), has('IRB001'));
   const inWater = or(has('FR3001'), has('PUASAR034'), has('PUASAR002'));
 
   const piaro = or(has('PRC001'), has('PRC002'), has('PUASAR001A'), has('PUASAR001B'), has('PUASAR022A'));
   const usar = has('USC002');
-  const verticalRescue = or(has('VRC003'), has('VRC004'), has('PUASAR032A'));
+  const verticalRescue = or(has('VRC001'), has('VRC002'), has('VRC003'), has('VRC004'), has('PUASAR032A'));
 
   const landSearch = or(has('LSC002'), has('LSC004'));
-  const mapAndNav = or(has('NVC003'), has('NVC004'));
+  const mapAndNav = or(has('NVC002'), has('NVC003'), has('NVC004'));
 
   const leadershipFundamentals = has('LFC003');
   const fieldTeamLeader = has('FTL002');
@@ -90,7 +91,7 @@ export function analyse(codes) {
   const stormHeightsOperator = and(stormGroundOperator, stormHeights);
 
   const chainsawL1 = and(foundation, stormGroundOrPiaroOrLandSearch, chainsawCrossCut);
-  const chainsawL2 = and(chainsawL1, 'NO'); // TODO
+  const chainsawL2 = and(chainsawL1, chainsawFelling);
 
   const boatOperator = and(foundation, floodBoat, boatFitness);
   const landBasedOperator = and(foundation, piaro, landBased, landBasedFitness);
@@ -122,6 +123,7 @@ export function analyse(codes) {
       stormHeights,
       stormGroundOrPiaroOrLandSearch,
       chainsawCrossCut,
+      chainsawFelling,
 
       floodBoat,
       landBased,

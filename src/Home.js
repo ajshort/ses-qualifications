@@ -25,6 +25,24 @@ function StatusCell({ status }) {
 function Home({ data }) {
   return (
     <Table responsive>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Job Ready</th>
+          <th>Foundation</th>
+          <th>Storm Ground</th>
+          <th>Storm Heights</th>
+          <th>Chainsaw L1</th>
+          <th>Chainsaw L2</th>
+          <th>Land Based</th>
+          <th>On Water</th>
+          <th>In Water</th>
+          <th>USAR</th>
+          <th>VR</th>
+          <th>Land Search (Open)</th>
+          <th>Land Search (Rugged)</th>
+        </tr>
+      </thead>
       <tbody>
         {data.sort((a, b) => a.surname.localeCompare(b.surname)).map(({ id, fullName, status: { operator } }) => (
           <tr key={id}>
