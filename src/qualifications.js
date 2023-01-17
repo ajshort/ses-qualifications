@@ -25,11 +25,22 @@ export function analyse(codes) {
   }
 
   function has(code) {
-    return codes.has(code) ? 'YES' : 'NO';
+    if (typeof code === 'string') {
+      return codes.has(code) ? 'YES' : 'NO';
+    } else {
+      return Array.from(codes.keys()).some(x => code.test(x)) ? 'YES' : 'NO';
+    }
   }
 
   function current(code, years) {
-    const found = codes.get(code);
+    let found;
+
+    if (typeof code === 'string') {
+      found = codes.get(code);
+    } else {
+      found = Array.from(codes.entries()).find(([k, v]) => code.test(k));
+      found = found ? found[1] : found;
+    }
 
     if (found === undefined) {
       return 'NO';
@@ -41,36 +52,36 @@ export function analyse(codes) {
   }
 
   // All of these qualifications combine, so calculate them here.
-  const jobReadyInduction = has('JRI002');
-  const jobReadyWorkshop = has('IJR001');
-  const beaconFamiliar = or(has('BEP001'), has('BEA002'));
-  const codeOfConduct = or(current('CCE001E', 3), current('COC003', 3), current('COC003E', 3));
-  const floodRescueAwareness = or(has('FRA001'), has('FRAP002'), has('FRA003'));
+  const jobReadyInduction = has(/JRI[0-9]{3}/);
+  const jobReadyWorkshop = has(/IJR[0-9]{3}/);
+  const beaconFamiliar = has(/BE[AP][0-9]{3}/);
+  const codeOfConduct = or(current('CCE001E', 3), current(/COC003E?/, 3));
+  const floodRescueAwareness = has(/FRA[0-9]{3}/)
 
-  const firstAid = or(current('SFC001', 3), current('SFC002', 3), current('HLTAID003', 3), current('HLTAID011', 3));
-  const operateCommsEquipment = or(has('CEC001'), has('CEC002'), has('PUAOPE013'), has('PUAOPE013A'));
+  const firstAid = or(current(/SFC[0-9]{3}/, 3), current('HLTAID003', 3), current('HLTAID011', 3));
+  const operateCommsEquipment = or(has(/CEC[0-9]{3}/), has(/PUAOPE013A?/));
   const beaconField = or(has('BEF001'), has('BEF002'));
   const introAiims = has('AIP002');
   const fieldCoreSkills = 'YES'; // TODO
-  const tsunamiAwareness = has('TSU002');
+  const tsunamiAwareness = has(/TSU[0-9]{3}/);
 
   const stormGround = or(has('SDC001'), has('SDC002'), has('SDG003C'), has('PUASES008'), has('PUASES008A'));
   const stormHeights = or(has('SDC001'), has('SDC002'), has('SDH003C'), has('PUASES013'), has('PUASES013A'));
-  const chainsawCrossCut = or(has('CSC003'), has('CSC001'));
-  const chainsawFelling = has('CFC002');
+  const chainsawCrossCut = has(/CSC[0-9]{3}/);
+  const chainsawFelling = has(/CFC[0-9]{3}/);
 
   const landBased = or(has('FR1001'), has('PUASAR033'), has('PUASAR001'))
   const floodBoat = or(has('BCC001'), has('BMC004'), has('PUASES009A'), has('IRB001'));
   const inWater = or(has('FR3001'), has('PUASAR034'), has('PUASAR002'));
 
-  const piaro = or(has('PRC001'), has('PRC002'), has('PUASAR001A'), has('PUASAR001B'), has('PUASAR022A'));
-  const usar = has('USC002');
-  const verticalRescue = or(has('VRC001'), has('VRC002'), has('VRC003'), has('VRC004'), has('PUASAR032A'));
+  const piaro = or(has(/PRC[0-9]{3}/), has('PUASAR001A'), has('PUASAR001B'), has('PUASAR022A'));
+  const usar = has(/USC[0-9]{3}/);
+  const verticalRescue = or(has(/VRC[0-9]{3}/), has('PUASAR032A'));
 
-  const landSearch = or(has('LSC002'), has('LSC004'));
-  const mapAndNav = or(has('NVC002'), has('NVC003'), has('NVC004'));
+  const landSearch = has(/LSC[0-9]{3}/);
+  const mapAndNav = has(/NVC[0-9]{3}/);
 
-  const leadershipFundamentals = has('LFC003');
+  const leadershipFundamentals = has(/LFC[0-9]{3}/);
   const fieldTeamLeader = has('FTL002');
 
   // Fitness / currency requirements.
@@ -81,6 +92,9 @@ export function analyse(codes) {
   const inWaterFitness = 'YES';
 
   const landSearchOpenFitness = 'YES';
+  const landSearchRuggedFitness = 'YES';
+  const bushSearchFitness = 'YES';
+  const alpineFitness = 'YES';
 
   // Build up field course pre-reqs and operator status.
   const jobReady = and(beaconFamiliar, codeOfConduct, floodRescueAwareness, jobReadyInduction, jobReadyWorkshop);
