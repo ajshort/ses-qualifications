@@ -1,3 +1,4 @@
+import Home from './Home';
 import Member from './Member';
 import { analyse } from './qualifications';
 
@@ -5,57 +6,8 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
-import Table from 'react-bootstrap/Table';
-import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import * as xlsx from 'xlsx';
-import clsx from 'clsx';
-
-function Home({ data }) {
-  const statusClass = (status) => clsx({
-    'bg-success': status === 'YES',
-    'bg-warning': status === 'EXPIRED',
-    'bg-danger': status === 'NO',
-  });
-
-  return (
-    <Table responsive>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Job Ready</th>
-          <th>Field Foundation</th>
-          <th>SWD (Ground)</th>
-          <th>SWD (Heights)</th>
-          <th>CS (L1)</th>
-          <th>CS (L2)</th>
-          <th>FR (LB)</th>
-          <th>FR (OW)</th>
-          <th>FR (IW)</th>
-          <th>USAR</th>
-          <th>VR</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.sort((a, b) => a.surname.localeCompare(b.surname)).map(({ id, fullName, status: { operator } }) => (
-          <tr key={id}>
-            <th><Link to={`/member/${id}`}>{fullName}</Link></th>
-            <td className={statusClass(operator.jobReady)}></td>
-            <td className={statusClass(operator.foundation)}></td>
-            <td className={statusClass(operator.stormGround)}></td>
-            <td className={statusClass(operator.stormHeights)}></td>
-            <td className={statusClass(operator.chainsawL1)}></td>
-            <td className={statusClass(operator.chainsawL2)}></td>
-            <td className={statusClass(operator.landBased)}></td>
-            <td className={statusClass(operator.onWater)}></td>
-            <td className={statusClass(operator.inWater)}></td>
-            <td className={statusClass(operator.usar)}></td>
-            <td className={statusClass(operator.verticalRescue)}></td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
-  );
-}
 
 function App() {
   const [loading, setLoading] = useState(true);
