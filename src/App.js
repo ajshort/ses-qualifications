@@ -4,6 +4,7 @@ import { analyse } from './qualifications';
 
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import Alert from 'react-bootstrap/Alert';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Spinner from 'react-bootstrap/Spinner';
@@ -99,21 +100,27 @@ function App() {
 
   return (
     <Router>
-    <HeadProvider>
-      <Navbar bg='dark' variant='dark'>
-        <Container fluid>
-          <LinkContainer to='/'>
-            <Navbar.Brand>SES Qualifications</Navbar.Brand>
-          </LinkContainer>
+      <HeadProvider>
+        <Navbar bg='dark' variant='dark'>
+          <Container fluid>
+            <LinkContainer to='/'>
+              <Navbar.Brand>SES Qualifications</Navbar.Brand>
+            </LinkContainer>
+          </Container>
+        </Navbar>
+        <Container fluid className='py-3'>
+          {loading ? (
+            <Alert variant='info'>
+              <Spinner animation='border' size='sm' /> Loading member data&hellip;
+            </Alert>
+          ) : (
+            <Routes>
+              <Route path='/' exact element={<Home data={data} />} />
+              <Route path='/member/:id' element={<Member data={data} />} />
+            </Routes>
+          )}
         </Container>
-      </Navbar>
-      <Container fluid>
-        <Routes>
-          <Route path='/' exact element={<Home data={data} />} />
-          <Route path='/member/:id' element={<Member data={data} />} />
-        </Routes>
-      </Container>
-    </HeadProvider>
+      </HeadProvider>
     </Router>
   );
 }
