@@ -5,8 +5,11 @@ import { analyse } from './qualifications';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
 import Spinner from 'react-bootstrap/Spinner';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { HeadProvider } from 'react-head';
+import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
 import * as xlsx from 'xlsx';
 
 function App() {
@@ -95,14 +98,23 @@ function App() {
   }
 
   return (
-    <Container fluid>
-      <Router>
+    <Router>
+    <HeadProvider>
+      <Navbar bg='dark' variant='dark'>
+        <Container fluid>
+          <LinkContainer to='/'>
+            <Navbar.Brand>SES Qualifications</Navbar.Brand>
+          </LinkContainer>
+        </Container>
+      </Navbar>
+      <Container fluid>
         <Routes>
           <Route path='/' exact element={<Home data={data} />} />
           <Route path='/member/:id' element={<Member data={data} />} />
         </Routes>
-      </Router>
-    </Container>
+      </Container>
+    </HeadProvider>
+    </Router>
   );
 }
 
