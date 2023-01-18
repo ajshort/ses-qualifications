@@ -7,7 +7,7 @@ import { faCheck, faHourglassEnd, faXmark } from '@fortawesome/free-solid-svg-ic
 function StatusCell({ status }) {
   let icon;
 
-  if (status === 'YES') {
+  if (status === 'CURRENT') {
     icon = <FontAwesomeIcon icon={faCheck} />;
   } else if (status === 'EXPIRED') {
     icon = <FontAwesomeIcon icon={faHourglassEnd} />

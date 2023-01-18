@@ -61,9 +61,9 @@ function Member({ data }) {
                 <div className="d-flex justify-content-between">
                   <div>Required for all pathways above:</div>
                   <div><FontAwesomeIcon icon={faUser} /> Be a Field Operator</div>
-                  <div>Leadership Fundamentals Course</div>
-                  <div>Diversity and Inclusion Course</div>
-                  <div>Emergency Management Program</div>
+                  <div><StatusIcon status={courses.leadershipFundamentals}>Leadership Fundamentals Course</StatusIcon></div>
+                  <div><StatusIcon status={courses.diversityAndInclusion}>Diversity and Inclusion Course</StatusIcon></div>
+                  <div><StatusIcon status={courses.emergencyManagement}>Emergency Management Program</StatusIcon></div>
                 </div>
               </td>
             </tr>
@@ -81,7 +81,7 @@ function Member({ data }) {
               <td  className={clsx('flood', 'status', statusClass(operator.inWater))}>Flood Rescue In-Water Operator</td>
               <td className={clsx('flood', 'status', statusClass(operator.onWater))}>Flood Rescue On-Water Operator</td>
               <td rowSpan={2}></td>
-              <td colSpan={2} className={clsx('rescue', 'status', statusClass(operator.glr))}>General Land Rescue Operator</td>
+              <td colSpan={2} className={clsx('rescue', 'status', statusClass(operator.generalLandRescue))}>General Land Rescue Operator</td>
               <td rowSpan={2}></td>
               <td className={clsx('search', 'status', statusClass(operator.alpineSearch))}>Alpine Search abd Rescue Operator</td>
               <td className={clsx('search', 'status', statusClass(operator.bushSearch))}>Bush Search and Rescue Operator</td>
@@ -92,8 +92,8 @@ function Member({ data }) {
               <td className={clsx('storm', statusClass(courses.chainsawFelling))}>Chainsaw Intermediate Felling Course</td>
               <td className={clsx('flood', statusClass(courses.inWater))}>Flood Rescue In-Water Course</td>
               <td className={clsx('flood', statusClass(courses.floodBoat))}>Flood Boat Operations Course</td>
-              <td className={clsx('rescue', statusClass(courses.idr))}>Industrial and Domestic Rescue Course</td>
-              <td rowSpan={3} className={clsx('rescue', 'status', statusClass(operator.usar))}>Urban Search and Rescue Operator</td>
+              <td className={clsx('rescue', statusClass(courses.industrialDomesticRescue))}>Industrial and Domestic Rescue Course</td>
+              <td rowSpan={3} className={clsx('rescue', 'status', statusClass(operator.urbanSearchRescue))}>Urban Search and Rescue Operator</td>
               <td className={clsx('search', statusClass(courses.alpineSearch))}>Alpine Search Course</td>
               <td className={clsx('search', statusClass(courses.bushSearch))}>Bush Search and Rescue Course</td>
             </tr>
@@ -101,8 +101,8 @@ function Member({ data }) {
               <td rowSpan={2} className={clsx('storm', 'status', statusClass(operator.stormGround))}>Storm Ground Operator</td>
               <td rowSpan={2} className={clsx('storm', 'status', statusClass(operator.chainsawL1))}>Chainsaw Operator Level 1</td>
               <td rowSpan={2} colSpan={2} className={clsx('flood', 'status', statusClass(operator.landBased))}>Flood Rescue Land-Based Operator</td>
-              <td rowSpan={2} className={clsx('rescue', 'status', statusClass(operator.lar))}>Large Animal Rescue Operator</td>
-              <td rowSpan={2} className={clsx('rescue', 'status', statusClass(operator.rcr))}>Road Crash Rescue Operator</td>
+              <td rowSpan={2} className={clsx('rescue', 'status', statusClass(operator.largeAnimalRescue))}>Large Animal Rescue Operator</td>
+              <td rowSpan={2} className={clsx('rescue', 'status', statusClass(operator.roadCrashRescue))}>Road Crash Rescue Operator</td>
               <td rowSpan={2} className={clsx('rescue', 'status', statusClass(operator.verticalRescue))}>Vertical Rescue Operator</td>
               <td colSpan={2} className={clsx('search', 'status', statusClass(operator.landSearchAdvanced))}>Advanced Land Search (Rugged Terrain) Operator</td>
             </tr>
@@ -114,9 +114,9 @@ function Member({ data }) {
               <td rowSpan={3} className={clsx('storm', statusClass(courses.stormGround))}>Storm Ground Course</td>
               <td rowSpan={2} className={clsx('storm', statusClass(courses.chainsawCrossCut))}>Chainsaw Cross Cut Course</td>
               <td rowSpan={2} colSpan={2} className={clsx('flood', statusClass(courses.landBased))}>Flood Rescue Land-Based Course</td>
-              <td rowSpan={2} className={clsx('rescue', statusClass(courses.lar))}>Large Animal Rescue Course</td>
-              <td rowSpan={2} className={clsx('rescue', statusClass(courses.rcr))}>Road Crash Rescue Course</td>
-              <td rowSpan={2} className={clsx('rescue', statusClass(courses.usar))}>Urban Search and Rescue Course</td>
+              <td rowSpan={2} className={clsx('rescue', statusClass(courses.largeAnimalRescue))}>Large Animal Rescue Course</td>
+              <td rowSpan={2} className={clsx('rescue', statusClass(courses.roadCrashRescue))}>Road Crash Rescue Course</td>
+              <td rowSpan={2} className={clsx('rescue', statusClass(courses.urbanSearchRescue))}>Urban Search and Rescue Course</td>
               <td rowSpan={2} className={clsx('rescue', statusClass(courses.verticalRescue))}>Vertical Rescue Course</td>
               <td colSpan={2} className={clsx('search', 'status', statusClass(operator.landSearchOpen))}>Land Search (Open Terrain) Operator</td>
               <td rowSpan={2} className={clsx('support', 'status', statusClass(operator.cfr))}>Community First Responder</td>
@@ -133,7 +133,7 @@ function Member({ data }) {
               <td colSpan={2} className={clsx('search', 'status', statusClass(operator.landSearchSuburban))}>Land Search Suburban (All Job Ready members)</td>
               <td className={clsx('support', statusClass(courses.medicalResponse))}>Certificate II in Medical Service First Response</td>
               <td className={clsx('support', statusClass(courses.floodBoat))}>Flood Boat Operations Course</td>
-              <td className={clsx('support', statusClass(courses.commEng))}>Community Engagement Officer Course</td>
+              <td className={clsx('support', statusClass(courses.communityLiason))}>Community Engagement Officer Course</td>
             </tr>
             <tr>
               <td colSpan={2} className="storm">Storm</td>
