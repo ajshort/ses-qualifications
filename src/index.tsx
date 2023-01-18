@@ -4,7 +4,14 @@ import App from './App';
 
 import './index.scss';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const element = document.getElementById('root');
+
+if (!element) {
+  throw new Error('Could not find the root element');
+}
+
+const root = ReactDOM.createRoot(element);
+
 root.render(
   <React.StrictMode>
     <App />
