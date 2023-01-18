@@ -1,12 +1,13 @@
 import clsx from 'clsx';
 import moment from 'moment';
 import React from 'react';
+import Table from 'react-bootstrap/Table';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faHourglassEnd, faUser, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 function StatusIcon({ status, children }) {
-  if (status === 'YES') {
+  if (status === 'CURRENT') {
     return <><FontAwesomeIcon icon={faCheck} /> {children}</>;
   } else if (status === 'EXPIRED') {
     return <><FontAwesomeIcon icon={faHourglassEnd} /> <span className="text-decoration-line-through">{children}</span></>;
@@ -27,15 +28,17 @@ function Member({ data }) {
 
   const statusClass = status => {
     switch (status) {
-      case 'YES':
+      case 'CURRENT':
         return 'achieved';
       case 'EXPIRED':
         return 'expired';
-      case 'NO':
+      case 'NONE':
       default:
         return 'unachieved';
     }
   };
+
+  console.table(courses);
 
   return (
     <>
@@ -177,6 +180,15 @@ function Member({ data }) {
       </div>
 
       <h2>Qualifications</h2>
+
+      <Table table>
+        <tbody>
+          {qualifications.map(({}) => (
+            <tr>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
 
       <ul>
         {qualifications.map(({ code, name, competencies }) => (
