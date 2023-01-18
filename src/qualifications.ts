@@ -35,7 +35,7 @@ const equivalencies = {
   chainsawCrossCut: ['CSC001', 'CSC002', 'CSC003', 'FPIFGM069A', 'FPICOT2221A', 'FPICOT2239A', 'FWPCOT2256', 'FWPCOT2239'],
   chainsawFelling: ['CFC002', 'CFC003', 'FPIFGM3212', 'FPIFGM3204A'],
   codeOfConduct: ['COC003', 'CCE001E', 'COC003E'],
-  communityLiason: ['CLO001'],
+  communityEngagement: ['CLO001'],
   diversityAndInclusion: ['DAI002E', 'DAI002'],
   emergencyManagement: ['EMOP001', 'EMPE001', 'EAE001', 'EMIP001'],
   fieldCoreSkills: ['FCP001'],
@@ -126,16 +126,28 @@ export function analyse(competencies: Competencies) {
   const landBasedFitness = and(swimTestLandBased, fitForTask);
   const inWaterFitness = and(swimTestInWater, fitForTask);
   const inWaterRefresher = or(status('FRPDC002', 3), status('FRPDN002', 3), status('FRPDV002', 3), status('FRPD003', 3), status('FR3RN001', 3), status('FR3V001', 3));
+  const inWaterCurrency = inWaterFitness;
 
   const timedAscent = status('VRE003', 1);
   const verticalPackTest = or(status('MPT001', 1), status('APT001', 1));
-  const verticalRescueFitness = and(timedAscent, verticalPackTest);
+  const verticalRescueCurrency = and(timedAscent, verticalPackTest);
+
+  // I don't think these are defined yet? Assumin MPT / APT?
+  const landSearchOpenFitness = Status.CURRENT;
 
   // Bundle up operator status.
   const jobReady = and(courses.beaconFamiliar, courses.codeOfConduct, courses.jobReadyInduction, courses.floodRescueAwareness, courses.jobReadyWorkshop);
-  const foundation = and(courses.firstAid, courses.operateCommsEquipment, courses.beaconField, courses.introAiims, courses.fieldCoreSkills);
+  const foundationCommEng = and(courses.firstAid, courses.operateCommsEquipment, courses.beaconField, courses.introAiims);
+  const foundation = and(foundationCommEng, courses.fieldCoreSkills);
+
   const stormGroundOperator = and(foundation, courses.stormGround);
   const chainsawL1 = and(foundation, courses.stormGroundOrPiaroOrLandSearch, courses.chainsawCrossCut);
+
+  const landBasedOperator = and(foundation, courses.piaro, courses.landBased, landBasedFitness);
+  const roadCrashRescueOperator = and(foundation, courses.piaro, courses.roadCrashRescue);
+  const urbanSearchRescueOperator = and(foundation, courses.piaro, courses.urbanSearchRescue);
+
+  const landSearchOpen = and(foundation, courses.landSearch, landSearchOpenFitness);
 
   return {
     courses,
@@ -148,12 +160,28 @@ export function analyse(competencies: Competencies) {
 
       chainsawL1: chainsawL1,
       chainsawL2: and(chainsawL1, courses.chainsawFelling),
+
+      landBased: landBasedOperator,
+      inWater: and(landBasedOperator, courses.floodBoat),
+      onWater: and(landBasedOperator, courses.inWater, inWaterCurrency),
+
+      largeAnimalRescue: and(foundation, courses.piaro, courses.largeAnimalRescue),
+      roadCrashRescue: roadCrashRescueOperator,
+      urbanSearchRescue: urbanSearchRescueOperator,
+      generalLandRescue: and(roadCrashRescueOperator, courses.industrialDomesticRescue, urbanSearchRescueOperator),
+      verticalRescue: and(foundation, courses.piaro, courses.verticalRescue, verticalRescueCurrency),
+
+      landSearchSuburban: jobReady,
+      landSearchOpen,
+
+      boat: and(foundation, courses.floodBoat, boatFitness),
+      communityEngagement: and(foundationCommEng, courses.communityEngagement),
     },
     currency: {
       boat: boatFitness,
       landBased: landBasedFitness,
       onWater: landBasedFitness,
-      verticalRescue: verticalRescueFitness,
+      verticalRescue: verticalRescueCurrency,
     }
   };
 }

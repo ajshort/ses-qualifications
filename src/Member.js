@@ -83,7 +83,7 @@ function Member({ data }) {
               <td rowSpan={2}></td>
               <td colSpan={2} className={clsx('rescue', 'status', statusClass(operator.generalLandRescue))}>General Land Rescue Operator</td>
               <td rowSpan={2}></td>
-              <td className={clsx('search', 'status', statusClass(operator.alpineSearch))}>Alpine Search abd Rescue Operator</td>
+              <td className={clsx('search', 'status', statusClass(operator.alpineSearch))}>Alpine Search and Rescue Operator</td>
               <td className={clsx('search', 'status', statusClass(operator.bushSearch))}>Bush Search and Rescue Operator</td>
               <td colSpan={3} rowSpan={4}></td>
             </tr>
@@ -121,7 +121,7 @@ function Member({ data }) {
               <td colSpan={2} className={clsx('search', 'status', statusClass(operator.landSearchOpen))}>Land Search (Open Terrain) Operator</td>
               <td rowSpan={2} className={clsx('support', 'status', statusClass(operator.cfr))}>Community First Responder</td>
               <td rowSpan={2} className={clsx('support', 'status', statusClass(operator.boat))}>Boat Operator</td>
-              <td rowSpan={2} className={clsx('support', 'status', statusClass(operator.commEng))}>Community Engagement Officer</td>
+              <td rowSpan={2} className={clsx('support', 'status', statusClass(operator.communityEngagement))}>Community Engagement Officer</td>
             </tr>
             <tr>
               <td className={clsx('search', statusClass(courses.landSearch))}>Land Search Course</td>
@@ -133,7 +133,7 @@ function Member({ data }) {
               <td colSpan={2} className={clsx('search', 'status', statusClass(operator.landSearchSuburban))}>Land Search Suburban (All Job Ready members)</td>
               <td className={clsx('support', statusClass(courses.medicalResponse))}>Certificate II in Medical Service First Response</td>
               <td className={clsx('support', statusClass(courses.floodBoat))}>Flood Boat Operations Course</td>
-              <td className={clsx('support', statusClass(courses.communityLiason))}>Community Engagement Officer Course</td>
+              <td className={clsx('support', statusClass(courses.communityEngagement))}>Community Engagement Officer Course</td>
             </tr>
             <tr>
               <td colSpan={2} className="storm">Storm</td>
