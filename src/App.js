@@ -92,12 +92,6 @@ function App() {
     })();
   }, []);
 
-  if (loading) {
-    return (
-      <Spinner animation='border' />
-    );
-  }
-
   return (
     <Router>
       <HeadProvider>
@@ -108,18 +102,16 @@ function App() {
             </LinkContainer>
           </Container>
         </Navbar>
-        <Container fluid className='py-3'>
-          {loading ? (
-            <Alert variant='info'>
-              <Spinner animation='border' size='sm' /> Loading member data&hellip;
-            </Alert>
-          ) : (
-            <Routes>
-              <Route path='/' exact element={<Home data={data} />} />
-              <Route path='/member/:id' element={<Member data={data} />} />
-            </Routes>
-          )}
-        </Container>
+        {loading ? (
+          <Alert variant='info'>
+            <Spinner animation='border' size='sm' /> Loading member data&hellip;
+          </Alert>
+        ) : (
+          <Routes>
+            <Route path='/' exact element={<Home data={data} />} />
+            <Route path='/member/:id' element={<Member data={data} />} />
+          </Routes>
+        )}
       </HeadProvider>
     </Router>
   );
