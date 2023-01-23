@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import moment from 'moment';
-import React from 'react';
+import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,9 +10,9 @@ function StatusIcon({ status, children }) {
   if (status === 'CURRENT') {
     return <><FontAwesomeIcon icon={faCheck} /> {children}</>;
   } else if (status === 'EXPIRED') {
-    return <><FontAwesomeIcon icon={faHourglassEnd} /> <span className="text-decoration-line-through">{children}</span></>;
+    return <><FontAwesomeIcon icon={faHourglassEnd} /> <span className='text-decoration-line-through'>{children}</span></>;
   } else {
-    return <><FontAwesomeIcon icon={faXmark} /> <span className="text-decoration-line-through">{children}</span></>;
+    return <><FontAwesomeIcon icon={faXmark} /> <span className='text-decoration-line-through'>{children}</span></>;
   }
 }
 
@@ -38,17 +38,22 @@ function Member({ data }) {
     }
   };
 
-  console.table(courses);
+  // Add date information to the qualifications (max of any of the competencies).
+  const datedQualifications = [...qualifications]
+    .map(qualification => (
+      { ...qualification, date: new Date(Math.max(...qualification.competencies.map(competency => competency.date))) }
+    ))
+    .sort((a, b) => b.date - a.date);
 
   return (
-    <>
+    <Container fluid>
       <h1>{fullName}</h1>
 
       <h2>Field Operator Pathway</h2>
 
-      <div className="pathway mb-1">
-        <div className="pathway-title">Leadership</div>
-        <table className="table">
+      <div className='pathway mb-1'>
+        <div className='pathway-title'>Leadership</div>
+        <table className='table'>
           <tbody>
           <tr>
               <td className={clsx('leadership', 'status', statusClass(operator.fieldTeamLeader))}>Field Team Leader</td>
@@ -57,8 +62,8 @@ function Member({ data }) {
               <td className={clsx('leadership', statusClass(courses.fieldTeamLeader))}>Field Team Leader Course</td>
             </tr>
             <tr>
-              <td className="foundation">
-                <div className="d-flex justify-content-between">
+              <td className='foundation'>
+                <div className='d-flex justify-content-between'>
                   <div>Required for all pathways above:</div>
                   <div><FontAwesomeIcon icon={faUser} /> Be a Field Operator</div>
                   <div><StatusIcon status={courses.leadershipFundamentals}>Leadership Fundamentals Course</StatusIcon></div>
@@ -71,9 +76,9 @@ function Member({ data }) {
         </table>
       </div>
 
-      <div id="technical-pathway" className="pathway mb-1">
-        <div className="pathway-title">Technical</div>
-        <table className="table table-responsive">
+      <div id='technical-pathway' className='pathway mb-1'>
+        <div className='pathway-title'>Technical</div>
+        <table className='table table-responsive'>
           <tbody>
             <tr>
               <td className={clsx('storm', 'status', statusClass(operator.stormHeights))}>Storm Heights Operator</td>
@@ -136,23 +141,23 @@ function Member({ data }) {
               <td className={clsx('support', statusClass(courses.communityEngagement))}>Community Engagement Officer Course</td>
             </tr>
             <tr>
-              <td colSpan={2} className="storm">Storm</td>
-              <td colSpan={2} className="flood">Flood Rescue</td>
-              <td colSpan={4} className="rescue">Land Rescue</td>
-              <td colSpan={2} className="search">Land Search</td>
-              <td colSpan={3} className="support">Support</td>
+              <td colSpan={2} className='storm'>Storm</td>
+              <td colSpan={2} className='flood'>Flood Rescue</td>
+              <td colSpan={4} className='rescue'>Land Rescue</td>
+              <td colSpan={2} className='search'>Land Search</td>
+              <td colSpan={3} className='support'>Support</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div className="pathway mb-3">
-        <div className="pathway-title">Foundation</div>
-        <table className="table">
+      <div className='pathway mb-3'>
+        <div className='pathway-title'>Foundation</div>
+        <table className='table'>
           <tbody>
             <tr>
-              <td className="foundation">
-                <div className="d-flex justify-content-between">
+              <td className='foundation'>
+                <div className='d-flex justify-content-between'>
                   <div><StatusIcon status={operator.foundation}>Required for all pathways above:</StatusIcon></div>
                   <div><StatusIcon status={courses.firstAid}>First Aid</StatusIcon></div>
                   <div><StatusIcon status={courses.operateCommsEquipment}>Operate Communications Equipment</StatusIcon></div>
@@ -164,8 +169,8 @@ function Member({ data }) {
               </td>
             </tr>
             <tr>
-              <td className="foundation status">
-                <div className="d-flex justify-content-between">
+              <td className='foundation status'>
+                <div className='d-flex justify-content-between'>
                   <div><StatusIcon status={operator.jobReady}>Job Ready</StatusIcon></div>
                   <div><StatusIcon status={courses.beaconFamiliar}>Beacon Familiarisation</StatusIcon></div>
                   <div><StatusIcon status={courses.codeOfConduct}>Code of Conduct</StatusIcon></div>
@@ -181,30 +186,40 @@ function Member({ data }) {
 
       <h2>Qualifications</h2>
 
-      <Table table>
+      <Table table small>
+        <thead className='table-light'>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Date</th>
+          </tr>
+        </thead>
         <tbody>
-          {qualifications.map(({}) => (
-            <tr>
-            </tr>
+          {datedQualifications.map(({ code, name, competencies, date }) => (
+            <>
+              <tr>
+                <th>{code}</th>
+                <td>{name}</td>
+                <td>{moment(date).format('DD/MM/YYYY')}</td>
+              </tr>
+              {competencies.length > 0 && (
+                <tr>
+                  <td colSpan={3}>
+                    <ul className='list-unstyled mb-0 text-muted'>
+                      {competencies.sort((a, b) => b.date - a.date).map(({ code, name, date }) => (
+                        <li>
+                          {code} - {name} {moment(date).format('DD/MM/YYYY')}
+                        </li>
+                      ))}
+                    </ul>
+                  </td>
+                </tr>
+              )}
+            </>
           ))}
         </tbody>
       </Table>
-
-      <ul>
-        {qualifications.map(({ code, name, competencies }) => (
-          <li key={code}>
-            <strong>{code}</strong> {name}
-            {competencies.length > 0 && (
-              <ul>
-                {competencies.map(({ name, code, date }, index) => (
-                  <li key={index}><strong>{code}</strong> {name} {moment(date).format('DD/MM/YYYY')}</li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))}
-      </ul>
-    </>
+    </Container>
   )
 }
 
